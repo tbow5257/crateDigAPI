@@ -43,12 +43,6 @@ class CrawlDiscogPage(graphene.Mutation):
 
         management.call_command('crawlDiscogsPage')
 
-
-        # kerpy = [Album(name='[greger]', releaseID="34434343", have=33, want=1231),
-        #         Album(name='awsss ger]', releaseID="844343", have=11, want=900),]
-
-        # Album.objects.bulk_create(kerpy)
-
         return CrawlDiscogPage('yup i run')
 
 
