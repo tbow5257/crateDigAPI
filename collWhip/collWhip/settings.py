@@ -24,7 +24,7 @@ if 'IS_HEROKU_ENV' in os.environ:
     DEBUG = False
 
     ALLOWED_HOSTS = [
-        'secret-bastion-33730.herokuapp.com',
+        'cratedigapi.herokuapp.com',
         '127.0.0.1',
         'localhost']
 
@@ -47,7 +47,7 @@ else:
     DEBUG = True
 
     ALLOWED_HOSTS = [
-        'secret-bastion-33730.herokuapp.com',
+        'cratedigapi.herokuapp.com',
         '127.0.0.1',
         'localhost']
 
