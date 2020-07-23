@@ -86,8 +86,6 @@ class Query(object):
         elif maxHaveCount:
             inHaveRange = [album for album in all_albums if album.have <= maxHaveCount]
 
-        # inHaveRange = sorted(inHaveRange, key=self.filterHave)
-        # print('inRange', len(inHaveRange))
 
         # inHaveRange.sort(key=filterHave)
         resultAmountBeforePagination = len(inHaveRange)
