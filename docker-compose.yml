@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+    db:
+        image: postgres:12
+        environment:
+            POSTGRES_DB: discogsdanker
+            POSTGRES_USER: user007
+            POSTGRES_PASSWORD: 1Password
+        volumes:
+            - discogsdankerDB:/var/lib/postgres
+        ports:
+            - "0.0.0.0:5432:5432"
+volumes:
+    discogsdankerDB:

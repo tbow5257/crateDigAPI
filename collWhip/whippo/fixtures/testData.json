@@ -1,0 +1,23 @@
+[
+    {
+      "model": "whippo.album",
+      "pk": 1,
+      "fields": {
+        "name": "myapp.person",
+        "releaseId": "4343954",
+        "have": 39,
+        "want": 94949
+      }
+    },
+    {
+      "model": "whippo.album",
+      "pk": 2,
+      "fields": {
+        "name": "ee CharField dsdsd",
+        "releaseId": "7866767",
+        "have": 666,
+        "want": 232323
+      }
+    }
+  ]
+  
