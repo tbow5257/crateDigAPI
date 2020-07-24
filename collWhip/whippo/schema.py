@@ -77,7 +77,8 @@ class Query(object):
 
         all_albums = all_albums.order_by('have')
 
-        all_albums = all_albums.annotate(sorting_int=Cast('price', IntegerField())).order_by('-sorting_int', 'price')
+        #hack get default have desc
+        all_albums = all_albums.annotate(sorting_int=Cast('price', IntegerField())).order_by('-sorting_int', 'price').order_by('-have')
 
         if minHaveCount and maxHaveCount:
             inHaveRange = [album for album in all_albums if album.have >= minHaveCount and album.have <= maxHaveCount]
@@ -86,8 +87,6 @@ class Query(object):
         elif maxHaveCount:
             inHaveRange = [album for album in all_albums if album.have <= maxHaveCount]
 
-
-        # inHaveRange.sort(key=filterHave)
         resultAmountBeforePagination = len(inHaveRange)
 
         if skip:
