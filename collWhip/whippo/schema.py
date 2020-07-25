@@ -10,9 +10,17 @@ from django.db.models import IntegerField
 from django.db.models.functions import Cast
 
 from whippo.models import Album, Style
+from .snippets.serializers import UserSerializer
+from django.contrib.auth import get_user_model
+
 
 # Graphene will automatically map the Category model's fields onto the CategoryNode.
 # This is configured in the CategoryNode's Meta class (as you can see below)
+class UserNode(DjangoObjectType):
+    class Meta:
+        model = get_user_model()
+        interfaces = (relay.Node, )
+
 class AlbumNode(DjangoObjectType):
     class Meta:
         model = Album
@@ -39,11 +47,25 @@ class CrawlDiscogPage(graphene.Mutation):
     success = graphene.String()
 
     def mutate(self, info, webpageURL):
-        print('run crawlDiscog')
-
-        management.call_command('crawlDiscogsPage')
 
         return CrawlDiscogPage('yup i run')
+
+class CreateUser(graphene.Mutation):
+    class Arguments:
+        username = graphene.String(required=True)
+        password = graphene.String(required=True)
+        first_name = graphene.String(required=True)
+        last_name = graphene.String(required=True)
+
+    user = graphene.Field(UserNode)
+
+    def mutate(self, info, username, password, first_name, last_name):
+        validated = {"username": username, "password": password,
+                     "first_name": first_name, "last_name": last_name}
+
+        createdUser = UserSerializer().create(validated_data=validated)
+
+        return CreateUser(user=createdUser)
 
 
 class Query(object):
@@ -103,3 +125,7 @@ class Query(object):
 
 class Mutation(object):
     crawl_discog= CrawlDiscogPage.Field()
+
+    create_user = CreateUser.Field(
+    )
+
