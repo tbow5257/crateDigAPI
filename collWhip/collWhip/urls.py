@@ -24,6 +24,6 @@ from whippo.views import spotify_login, spotify_callback
 urlpatterns = [
     path('admin/', admin.site.urls),
     re_path(r'^graphql', csrf_exempt(GraphQLView.as_view(graphiql=True, schema=schema))),
-    path('spotlog/', spotify_login),
-    path('spotcallback/', spotify_callback)
+    path('spotlog/', csrf_exempt(spotify_login)),
+    path('spotcallback/', csrf_exempt(spotify_callback))
 ]
