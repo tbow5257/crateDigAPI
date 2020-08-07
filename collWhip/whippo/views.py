@@ -14,8 +14,10 @@ def spotify_login(request):
             'client_id': '60a84f8787bb4900949d3ff89dd896c9',
             'response_type': 'code',
             'redirect_uri': 'http://localhost:8000/spotcallback/',
-            'state': 'w000w',
-            'scope': 'user-read-private user-read-email',
+            'scope': 'streaming user-read-email ' +
+                     'user-read-private user-library-read user-library-modify ' +
+                     'user-read-playback-state user-modify-playback-state' ,
+            'show_dialog': 'true'
         }
     
     return redirect('https://accounts.spotify.com/authorize/?' + urlencode(payload))
