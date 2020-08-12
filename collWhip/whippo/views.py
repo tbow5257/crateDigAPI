@@ -1,7 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import redirect
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from urllib.parse import urlencode
+from rest_framework import status
 import requests
 import os
 import json
@@ -51,4 +54,35 @@ def spotify_callback(request):
     
     return redirect('http://localhost:3000' + '?access_token=' + res_data.get('access_token'))
 
+class SpotifyLookup(APIView):
+    def post(self, request):
+        
+        print("request.POST.get('usertoken') ", request.POST.get('usertoken'))
+        print("request.POST.get('usertoken') ", request.POST.get('searchterm'))
 
+        if not request.POST.get('usertoken') or not request.POST.get('searchterm'):
+            print("fffffffffff ")
+            content = 'missing required body usertoken and/or searchterm'
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
+        user_token = request.POST.get('usertoken')
+
+        searchTerm = request.POST.get('searchterm').replace('-','%20')
+        
+        SEARCH_URL = "https://api.spotify.com/v1/search?q=" + searchTerm + "&type=artist,album"
+
+        headers = {"Authorization": 'Bearer ' + user_token }
+
+        res = requests.get(SEARCH_URL, headers=headers)
+        print(res.json())
+        res_data = 'nada'
+
+        if 'albums' in res.json() and len(res.json()['albums']['items']) > 0:
+            res_data = res.json()['albums']['items'][0]['uri']
+    
+        if 'artists' in res.json() and len(res.json()['artists']['items']) > 0:
+            res_data = res.json()['artists']['items'][0]['uri']
+
+        print('albums results', res_data)
+
+        return Response(res_data, 200)

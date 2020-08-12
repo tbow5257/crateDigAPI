@@ -19,11 +19,12 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework import routers, serializers, viewsets
 from graphene_django.views import GraphQLView
 from collWhip.schema import schema
-from whippo.views import spotify_login, spotify_callback
+from whippo.views import spotify_login, spotify_callback, SpotifyLookup 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     re_path(r'^graphql', csrf_exempt(GraphQLView.as_view(graphiql=True, schema=schema))),
     path('spotlog/', csrf_exempt(spotify_login)),
-    path('spotcallback/', csrf_exempt(spotify_callback))
+    path('spotcallback/', csrf_exempt(spotify_callback)),
+    path('spotArtistCheck/', csrf_exempt(SpotifyLookup.as_view())),
 ]
